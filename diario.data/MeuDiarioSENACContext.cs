@@ -1,9 +1,15 @@
-using MySql.Data.MySqlClient;
+using Microsoft.EntityFrameworkCore;
 
-public class MeuDiarioSENACContext
+public class MeuDiarioSENACContext : DbContext
 {
-    public static MySqlConnection ObterConexao()
+    public DbSet<Registro> Registros { get; set; }
+    private readonly string ConnectionString = 
+    "server=localhost;port=3305;database=MeuDiarioSENAC;uid=root;pwd=1234";
+
+    protected override void OnConfiguring
+    (DbContextOptionsBuilder optionsBuilder)
     {
-        return new MySqlConnection("server=localhost;database=diario_senac;user=root;password=1234;");
+        optionsBuilder.UseMySql(ConnectionString,
+            ServerVersion.AutoDetect(ConnectionString));
     }
 }
